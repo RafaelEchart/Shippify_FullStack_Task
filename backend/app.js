@@ -6,6 +6,9 @@ dotenv.config();
 const express = require("express");
 const bodyParser = require("body-parser");
 
+//Sessions
+const getRoutes = require("./crud-operations/routes/crud-routes");
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -22,6 +25,10 @@ app.use((req, res, next) => {
   
     next();
   });
+
+  //API - SESSIONS
+app.use("/api", getRoutes);
+
 
 
   //Routes not found

@@ -23,5 +23,19 @@ const getAllDriversController = async (req, res, next) => {
 
 };
 
+const getVehicleByIdController = async (req, res, next) => {
+
+  let sqlQuery = `SELECT * FROM vehicle WHERE id = ${req.params.id}`;
+
+  conn.query(sqlQuery, (err, results) => {
+    if(err){
+      return res.status(404).json({error: err });
+    };
+    return res.status(200).json({results});
+  });
+
+};
+
 
 exports.getAllDriversController = getAllDriversController;
+exports.getVehicleByIdController = getVehicleByIdController;

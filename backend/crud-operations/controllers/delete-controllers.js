@@ -11,10 +11,6 @@ const conn = mysql.createConnection({
 
 const deleteVehicleController = async (req, res, next) => {
 
-  console.log(req.params.id)
-
-
-
   let sqlQuery = `DELETE FROM vehicle WHERE id = ${req.params.id}`;
 
  

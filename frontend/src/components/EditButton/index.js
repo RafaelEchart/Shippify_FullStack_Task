@@ -1,19 +1,24 @@
 import { useState } from "react";
 import { EditOutlined } from "@ant-design/icons";
-import { message, Modal, Select, Input } from "antd";
+import { message, Modal } from "antd";
 import SpinLoading from "../Spinner";
+import UpdateInputs from "./UpdateInputs";
 
 import "./style.css";
 
 const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
-  const { Option } = Select;
-
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const [vehicleData, setvehicleData] = useState({ driverId: null, plate: null, model: null, type: null, capacity: null });
+  const [vehicleData, setvehicleData] = useState({
+    driverId: null,
+    plate: null,
+    model: null,
+    type: null,
+    capacity: null,
+  });
 
-  const editVehicle = async () => {
+  const openModalVehicleInfo = async () => {
     try {
       setIsLoading(true);
       setIsOpenModal(true);
@@ -23,10 +28,17 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
       getVehicleInfo = await getVehicleInfo.json();
 
       console.log(getVehicleInfo.results);
-      
-      const { driver_id, plate, model, type, capacity } = getVehicleInfo.results[0]
 
-      setvehicleData({ driverId: driver_id, plate: plate, model: model, type: type, capacity: capacity })
+      const { driver_id, plate, model, type, capacity } =
+        getVehicleInfo.results[0];
+
+      setvehicleData({
+        driverId: driver_id,
+        plate: plate,
+        model: model,
+        type: type,
+        capacity: capacity,
+      });
 
       setIsLoading(false);
     } catch (err) {
@@ -36,15 +48,41 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
 
   const handleOk = () => {
     setIsOpenModal(false);
+    console.log(vehicleData);
   };
 
   const handleCancel = () => {
     setIsOpenModal(false);
   };
 
+  const inputHandler = (type, value) => {
+    // const inputValue = value.target.value
+    console.log(type, value)
+    switch (type) {
+      case "driver":
+        setvehicleData({...vehicleData, driverId: value })
+        break;
+      case "plate":
+        setvehicleData({...vehicleData, plate: value })
+        break;
+      case "model":
+        setvehicleData({...vehicleData, model: value })
+        break;
+      case "type":
+        setvehicleData({...vehicleData, type: value })
+        break;
+      case "capacity":
+        setvehicleData({...vehicleData, capacity: value })
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
-      <EditOutlined className="edit_button" onClick={editVehicle} />
+      <EditOutlined className="edit_button" onClick={openModalVehicleInfo} />
       <Modal
         title={`Editing Vehicle #${vehicleId}`}
         visible={isOpenModal}
@@ -55,25 +93,12 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
         {isLoading ? (
           <SpinLoading size="large" />
         ) : (
-          <div className="input-container">
-            <label className="input-width label-color">Plate</label>
-            <Input className="input-width" value={vehicleData.plate} />
-            <label className="input-width label-color">Driver</label>
-            <Select
-              defaultValue={driver}
-              className="input-width"
-            >
-              {driverList.map((driver)=>(
-                <Option value={driver.id}>{driver.first_name} {driver.last_name}</Option>
-              ))}
-              </Select>
-            <label className="input-width label-color">Model</label>
-            <Input className="input-width" value={vehicleData.model} />
-            <label className="input-width label-color">Type</label>
-            <Input className="input-width" value={vehicleData.type} />
-            <label className="input-width label-color">Capacity</label>
-            <Input className="input-width" value={vehicleData.capacity} />
-          </div>
+          <UpdateInputs
+            vehicleData={vehicleData}
+            driver={driver}
+            driverList={driverList}
+            inputHandler={inputHandler}
+          />
         )}
       </Modal>
     </>

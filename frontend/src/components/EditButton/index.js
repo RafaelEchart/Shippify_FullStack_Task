@@ -42,22 +42,19 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
 
       setIsLoading(false);
     } catch (err) {
-      message.error("Error deleting vehicle, try again!");
+      message.error("Error fetching vehicle, try again!");
+      setIsOpenModal(false);
+
     }
   };
 
-  const handleOk = () => {
-    setIsOpenModal(false);
-    console.log(vehicleData);
-  };
+
 
   const handleCancel = () => {
     setIsOpenModal(false);
   };
 
   const inputHandler = (type, value) => {
-    // const inputValue = value.target.value
-    console.log(type, value)
     switch (type) {
       case "driver":
         setvehicleData({...vehicleData, driverId: value })
@@ -80,18 +77,46 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
     }
   };
 
+  const updateVehicleInfo = async () => {
+    try {
+      setIsLoading(true);
+      await fetch(`http://localhost:3008/api/update_vehicle/${vehicleId}`, {
+        method: "patch",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vehicleData
+        }),
+
+    });
+
+
+     
+      setIsLoading(false);
+      message.success("Vehicle updated successfully!");
+      setIsOpenModal(false);
+      reRender()
+    } catch (err) {
+      message.error("Error updating vehicle, try again!");
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <EditOutlined className="edit_button" onClick={openModalVehicleInfo} />
       <Modal
         title={`Editing Vehicle #${vehicleId}`}
         visible={isOpenModal}
-        onOk={handleOk}
+        onOk={updateVehicleInfo}
         onCancel={handleCancel}
         destroyOnClose
       >
         {isLoading ? (
+          <div className="center-update-spinner">
           <SpinLoading size="large" />
+          </div>
         ) : (
           <UpdateInputs
             vehicleData={vehicleData}

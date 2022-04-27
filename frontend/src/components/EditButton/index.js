@@ -23,7 +23,7 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
       setIsLoading(true);
       setIsOpenModal(true);
       let getVehicleInfo = await fetch(
-        `http://localhost:3008/api/get_vehicle/${vehicleId}`
+        `${process.env.REACT_APP_URL}/get_vehicle/${vehicleId}`
       );
       getVehicleInfo = await getVehicleInfo.json();
 
@@ -80,7 +80,7 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
   const updateVehicleInfo = async () => {
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3008/api/update_vehicle/${vehicleId}`, {
+      await fetch(`${process.env.REACT_APP_URL}/update_vehicle/${vehicleId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

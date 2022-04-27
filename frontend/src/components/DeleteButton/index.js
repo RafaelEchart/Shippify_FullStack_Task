@@ -11,7 +11,7 @@ const DeleteButton = ({ id, reRender }) => {
   const confirm = async () => {
     try{
       setIsDeleting(true)
-      await fetch(`http://localhost:3008/api/delete_vehicle/${id}`, {
+      await fetch(`${process.env.REACT_APP_URL}/delete_vehicle/${id}`, {
           method: "delete"
       });
       message.success("Vehicle deleted successfully!")

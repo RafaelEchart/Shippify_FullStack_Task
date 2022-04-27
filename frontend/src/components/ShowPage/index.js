@@ -18,7 +18,7 @@ function ShowPage() {
   const getListVehiclesData = async (visitorId) => {
     setIsLoading(true);
     try {
-      let listOfVehicles = await fetch("http://localhost:3008/api/");
+      let listOfVehicles = await fetch(`${process.env.REACT_APP_URL}/`);
       listOfVehicles = await listOfVehicles.json();
 
       console.log(listOfVehicles.results);

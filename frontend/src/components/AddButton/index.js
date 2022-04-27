@@ -52,7 +52,7 @@ const AddButton = ({ driverData, reRender }) => {
     console.log(vehicleData)
     try {
       setIsLoading(true);
-      await fetch(`http://localhost:3008/api/create_vehicle/${driverData.id}`, {
+      await fetch(`${process.env.REACT_APP_URL}/create_vehicle/${driverData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

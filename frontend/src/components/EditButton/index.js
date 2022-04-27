@@ -81,12 +81,13 @@ const EditButton = ({ vehicleId, reRender, driverList, driver }) => {
     try {
       setIsLoading(true);
       await fetch(`http://localhost:3008/api/update_vehicle/${vehicleId}`, {
-        method: "patch",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          vehicleData
+          vehicleData,
+          vehicleId
         }),
 
     });

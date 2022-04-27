@@ -45,6 +45,7 @@ function ShowPage() {
       {!isLoading && driverList.length && (
         <div className="container">
           {driverList.map((driver, idx) => {
+            
             let vehicles = JSON.parse(driver.vehicles);
             if (idx <= loadedItems) {
               return (

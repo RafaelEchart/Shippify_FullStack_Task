@@ -15,7 +15,6 @@
   padding: 0;
   margin: 20px;
   background: linear-gradient(to bottom, black, black 20%, transparent 20%, transparent 40%, black 40%, black 60%, transparent 60%, transparent 80%, black 80%, black 100%);
-  position: fixed;
   z-index: 1;
 }
 
@@ -52,7 +51,7 @@
 
 .active {
   color: white;
-  background-color: #97bf0f;
+  background-color: #EF404A;
 }
 
 .ant-carousel {

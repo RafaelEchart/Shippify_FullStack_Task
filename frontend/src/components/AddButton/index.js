@@ -49,30 +49,34 @@ const AddButton = ({ driverData, reRender }) => {
   };
 
   const createVehicle = async () => {
-    console.log(vehicleData)
-    try {
-      setIsLoading(true);
-      await fetch(`${process.env.REACT_APP_URL}/create_vehicle/${driverData.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          vehicleData,
-        }),
+    if(vehicleData.capacity.length && vehicleData.type.length && vehicleData.model.length && vehicleData.plate.length){
+      try {
+        setIsLoading(true);
+        await fetch(`${process.env.REACT_APP_URL}/create_vehicle/${driverData.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            vehicleData,
+          }),
+  
+      });
 
-    });
+        setIsLoading(false);
+        message.success("Vehicle created successfully!");
+        setIsOpenModal(false);
+        reRender()
+      } catch (err) {
+        message.error("Error updating vehicle, try again!");
+        setIsLoading(false);
+      }
 
+    } else {
+      message.warning("Inputs can not be empty!");
 
-     
-      setIsLoading(false);
-      message.success("Vehicle created successfully!");
-      setIsOpenModal(false);
-      reRender()
-    } catch (err) {
-      message.error("Error updating vehicle, try again!");
-      setIsLoading(false);
     }
+   
   };
 
 

@@ -10,7 +10,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<ShowList />} />
-        <Route path="/new" element={<ShowList />} />
+        <Route path="/empty_route" element={<ShowList />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </div>

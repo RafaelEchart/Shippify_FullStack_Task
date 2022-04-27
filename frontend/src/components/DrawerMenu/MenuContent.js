@@ -10,7 +10,7 @@ const MenuContent = ({closeMenu}) =>  (
       <ul className="ul_menu_container">
 
               <NavLink to="/" className="menu-options" onClick={closeMenu}>List of Drivers</NavLink>
-              <NavLink to="/new" className="menu-options" onClick={closeMenu}>New Vehicle</NavLink>
+              <NavLink to="/empty_route" className="menu-options" onClick={closeMenu}>New Vehicle</NavLink>
 
       </ul>
       </nav>

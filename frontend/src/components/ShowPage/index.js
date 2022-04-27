@@ -17,7 +17,7 @@ function ShowPage() {
   const getListVehiclesData = async (visitorId) => {
     setIsLoading(true);
     try {
-      let listOfVehicles = await fetch("http://localhost:3007/api/");
+      let listOfVehicles = await fetch("http://localhost:3008/api/");
       listOfVehicles = await listOfVehicles.json();
 
       console.log(listOfVehicles.results);
@@ -48,7 +48,7 @@ function ShowPage() {
             let vehicles = JSON.parse(driver.vehicles);
             if (idx <= loadedItems) {
               return (
-                <Collapse className="collapse_container">
+                <Collapse className="collapse_container" key={idx}>
                   <Panel
                     header={
                       <p className="header_panel">
@@ -63,11 +63,12 @@ function ShowPage() {
                       className="demo-loadmore-list"
                       itemLayout="horizontal"
                       dataSource={vehicles}
-                      renderItem={(item) => (
+                      renderItem={(item, idx) => (
                         <List.Item
+                        key={idx}
                           actions={[
                             <DeleteButton id={item.vehicle_id} reRender={getListVehiclesData} />,
-                            <EditButton id={item.vehicle_id} reRender={getListVehiclesData} />,
+                            <EditButton vehicleId={item.vehicle_id} reRender={getListVehiclesData} driverList={driverList} driver={driver.id}/>,
                             
                           ]}
                         >

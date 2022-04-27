@@ -11,3 +11,25 @@
     min-height: 150px;
     transition: all 0.3s;
   }
+
+  .button_container {
+    text-align: center;
+    padding: 20px 20px 10px 20px;
+}
+
+.header_panel {
+  margin-bottom: 0;
+}
+
+.collapse_container {
+
+}
+
+.ant-collapse-header {
+  padding: 20px;
+  font-size: 20px;
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header .ant-collapse-arrow {
+  font-size: 16px;
+}

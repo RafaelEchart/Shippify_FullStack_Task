@@ -1,38 +1,67 @@
-import { useState, useEffect } from 'react'
-import SpinLoading from '../Spinner'
-import './index.css'
+import { useState, useEffect } from "react";
+import SpinLoading from "../Spinner";
+import ResultMessage from "../Result";
+import { Collapse, Button } from "antd";
+import "./index.css";
+import { CarOutlined } from "@ant-design/icons";
+
 
 function ShowPage() {
+  const [driverList, setDriverList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadedItems, setLoadedItems] = useState(15);
 
-  const [ vehicleList, setVehicleList ] = useState([])
-  const [ isLoading, setIsLoading ] = useState(false);
-
+  const { Panel } = Collapse;
 
   const getListVehiclesData = async (visitorId) => {
-    setIsLoading(true)
-    try{
-      let listOfVehicles = await fetch("http://localhost:3001/api/");
-      console.log(listOfVehicles)
-      listOfVehicles = await listOfVehicles.json()
-      setVehicleList(listOfVehicles.results)
-      setIsLoading(false)
-      
-    }catch(err){
-      setIsLoading(false)
-      console.log(err)
+    setIsLoading(true);
+    try {
+      let listOfVehicles = await fetch("http://localhost:3002/api/");
+      listOfVehicles = await listOfVehicles.json();
+
+      console.log(listOfVehicles.results);
+      setDriverList(listOfVehicles.results);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      setDriverList("error");
     }
   };
 
   useEffect(() => {
-    getListVehiclesData()
-  }, [])
+    getListVehiclesData();
+  }, []);
 
-
+  const moreItems = () => {
+    setLoadedItems(loadedItems + 15)
+  }
 
   return (
     <>
-    {isLoading && <SpinLoading size="large" /> }
-    {!isLoading && vehicleList.length &&  <div className="container">Hello </div>}
+      {isLoading && <SpinLoading size="large" />}
+      {!isLoading && driverList === "error" && <ResultMessage type="warning" />}
+      {!isLoading && driverList.length && (
+        <div className="container">
+          {driverList.map((driver, idx) => {
+            let vehicles = JSON.parse(driver.vehicles);
+            if(idx <= loadedItems){
+              return (
+                <Collapse className="collapse_container">
+                  <Panel
+                    header={<p className="header_panel">{driver.first_name} {driver.last_name} {"   "} <CarOutlined /> {"   "}    Vehicles: {vehicles.length}</p>}
+                    key="1"
+                  >
+                    <p>{vehicles.length}</p>
+                  </Panel>
+                </Collapse>
+              );
+            }
+          })}
+          <div className="button_container">
+          <Button onClick={moreItems}> More Drivers </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

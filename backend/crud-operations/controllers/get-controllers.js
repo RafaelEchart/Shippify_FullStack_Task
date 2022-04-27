@@ -11,17 +11,19 @@ const conn = mysql.createConnection({
 
 const getDriversController = async (req, res, next) => {
 
-  let sqlQuery = "SELECT * FROM driver JOIN vehicle ON vehicle.driver_id = driver.id";
-  
-  
-  let query = conn.query(sqlQuery, (err, results) => {
-    if(err) throw err;
-    res.status(200).json({
-      results
-    });
+  let sqlQuery = "SELECT driver.*, concat('[', group_concat(JSON_OBJECT('vehicle_id', vehicle.id, 'plate', vehicle.plate, 'driver_id', vehicle.driver_id) order by vehicle.id separator ','), ']') as vehicles FROM driver JOIN vehicle ON vehicle.driver_id = driver.id GROUP BY driver.id, driver.first_name";
+
+ 
+  conn.query(sqlQuery, (err, results) => {
+    if(err){
+
+      return res.status(404).json({error: err });
+    };
+    console.log(results)
+    return res.status(200).json({results});
   });
   
- 
+  
 };
 
 

@@ -10,10 +10,12 @@ const conn = mysql.createConnection({
 
 
 const createVehicleController = async (req, res, next) => {
-  console.log("here")
 
-  // let sqlQuery = `DELETE FROM vehicle WHERE id = ${req.params.id}`;
-  let sqlQuery = `INSERT INTO vehicle (driver_id, plate, model, type, capacity )  VALUES (2, "GBE3890", "Toyota", "Car", "Small");`;
+  const driverId = req.params.driver_id
+  const { plate, model, type, capacity } = req.body.vehicleData;
+
+
+  let sqlQuery = `INSERT INTO vehicle (driver_id, plate, model, type, capacity )  VALUES (${driverId}, "${plate}", "${model}", "${type}", "${capacity}");`;
 
  
   conn.query(sqlQuery, (err, results) => {

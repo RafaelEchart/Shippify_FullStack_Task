@@ -6,7 +6,7 @@ const getControllers = require("../controllers/get-controllers");
 const router = express.Router();
 
 //Initial Route - Get all drivers and vehicles
-router.get("/", getControllers.getDriversController);
+router.get("/", getControllers.getAllDriversController);
 
 
 

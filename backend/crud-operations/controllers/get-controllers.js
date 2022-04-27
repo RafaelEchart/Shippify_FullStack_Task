@@ -16,7 +16,6 @@ const getAllDriversController = async (req, res, next) => {
  
   conn.query(sqlQuery, (err, results) => {
     if(err){
-
       return res.status(404).json({error: err });
     };
     return res.status(200).json({results});

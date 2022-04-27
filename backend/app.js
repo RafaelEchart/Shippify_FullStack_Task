@@ -38,7 +38,7 @@ app.use((req, res, next) => {
   });
   
 
-app.listen(3001, () => {
-    console.log(`App running on port 3001.`)
+app.listen(3006, () => {
+    console.log(`App running on port 3006.`)
   })
   

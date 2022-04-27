@@ -16,7 +16,7 @@ function ShowPage() {
   const getListVehiclesData = async (visitorId) => {
     setIsLoading(true);
     try {
-      let listOfVehicles = await fetch("http://localhost:3004/api/");
+      let listOfVehicles = await fetch("http://localhost:3006/api/");
       listOfVehicles = await listOfVehicles.json();
 
       console.log(listOfVehicles.results);
@@ -35,10 +35,11 @@ function ShowPage() {
   const moreItems = () => {
     setLoadedItems(loadedItems + 15);
   };
+  
 
   return (
     <>
-      {isLoading && <SpinLoading size="large" />}
+      {isLoading && <div className="center-container"><SpinLoading size="large" /></div>}
       {!isLoading && driverList === "error" && <ResultMessage type="error" />}
       {!isLoading && driverList.length && (
         <div className="container">
@@ -64,7 +65,7 @@ function ShowPage() {
                       renderItem={(item) => (
                         <List.Item
                           actions={[
-                            <DeleteButton id={item.vehicle_id} />,
+                            <DeleteButton id={item.vehicle_id} reRender={getListVehiclesData} />,
                             <a key="list-loadmore-more">more</a>,
                           ]}
                         >

@@ -10,16 +10,19 @@ const conn = mysql.createConnection({
 
 const patchVehicleByIdController = async (req, res, next) => {
   const { driverId, plate, model, type, capacity } = req.body.vehicleData;
-  const { vehicleId } = req.body.vehicleId;
+  const  vehicleId  = req.body.vehicleId;
 
   console.log(driverId, plate, model, type, capacity, vehicleId);
 
-  let sqlQuery = `UPDATE vehicle SET driver_id = ${driverId}, plate = ${plate}, model = ${model}, type = ${type}, capacity = ${capacity} WHERE id = ${vehicleId}`;
+  let sqlQuery = `UPDATE vehicle SET driver_id = ${driverId}, plate = "${plate}", model = "${model}", type = "${type}", capacity = "${capacity}" WHERE id = ${vehicleId}`;
 
   conn.query(sqlQuery, (err, results) => {
     if (err) {
       return res.status(404).json({ error: err });
     }
+    console.log(results)
+    console.log("here")
+
     return res.status(200).json({ results: true });
   });
 };

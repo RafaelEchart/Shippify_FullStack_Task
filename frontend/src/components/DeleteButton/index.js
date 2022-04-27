@@ -6,19 +6,20 @@ import SpinLoading from "../Spinner";
 import "./style.css";
 
 const DeleteButton = ({ id, reRender }) => {
-  const [ isDeleting, isSetDeleting ] = useState(false)
+  const [ isDeleting, setIsDeleting ] = useState(false)
 
   const confirm = async () => {
     try{
-      isSetDeleting(true)
-      await fetch(`http://localhost:3006/api/delete_vehicle/${id}`, {
+      setIsDeleting(true)
+      await fetch(`http://localhost:3007/api/delete_vehicle/${id}`, {
           method: "delete"
       });
       message.success("Vehicle deleted successfully!")
       reRender()
-      isSetDeleting(false)
-
+      setIsDeleting(false)
+      
     }catch(err){
+      message.error("Error deleting vehicle, try again!")
 
     }
   };

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SpinLoading from "../Spinner";
 import ResultMessage from "../Result";
 import DeleteButton from '../DeleteButton'
+import EditButton from '../EditButton'
 import { Collapse, Button, List } from "antd";
 import "./index.css";
 import { CarOutlined } from "@ant-design/icons";
@@ -16,7 +17,7 @@ function ShowPage() {
   const getListVehiclesData = async (visitorId) => {
     setIsLoading(true);
     try {
-      let listOfVehicles = await fetch("http://localhost:3006/api/");
+      let listOfVehicles = await fetch("http://localhost:3007/api/");
       listOfVehicles = await listOfVehicles.json();
 
       console.log(listOfVehicles.results);
@@ -66,7 +67,8 @@ function ShowPage() {
                         <List.Item
                           actions={[
                             <DeleteButton id={item.vehicle_id} reRender={getListVehiclesData} />,
-                            <a key="list-loadmore-more">more</a>,
+                            <EditButton id={item.vehicle_id} reRender={getListVehiclesData} />,
+                            
                           ]}
                         >
                           <p><strong>ID: </strong>{item.vehicle_id}{"  "} <strong>Plate: </strong>{item.plate}</p>

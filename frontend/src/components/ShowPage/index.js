@@ -3,6 +3,7 @@ import SpinLoading from "../Spinner";
 import ResultMessage from "../Result";
 import DeleteButton from '../DeleteButton'
 import EditButton from '../EditButton'
+import AddButton from '../AddButton'
 import { Collapse, Button, List } from "antd";
 import "./index.css";
 import { CarOutlined } from "@ant-design/icons";
@@ -79,7 +80,7 @@ function ShowPage() {
                     />
                     </> : <ResultMessage type="warning" />}
 
-                    <Button>New Vehicle</Button>
+                    <AddButton driverData={driver} reRender={getListVehiclesData} />
                   </Panel>
                 </Collapse>
               );

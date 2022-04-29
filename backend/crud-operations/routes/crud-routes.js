@@ -11,13 +11,14 @@ const router = express.Router();
 //Initial Route - Get all drivers and vehicles
 router.get("/", getControllers.getAllDriversController);
 
+
 //Get vehicle by ID
 router.get("/get_vehicle/:id", getControllers.getVehicleByIdController);
 
 //Create vehicle for Driver
 router.post("/create_vehicle/:driver_id", createControllers.createVehicleController);
 
-//Patch vehicle by ID
+//Update vehicle by ID
 router.patch("/update_vehicle/:id", patchControllers.patchVehicleByIdController);
 
 //Delete vehicle by ID

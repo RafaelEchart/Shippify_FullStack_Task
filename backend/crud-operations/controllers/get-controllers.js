@@ -11,9 +11,18 @@ const conn = mysql.createConnection({
 
 const getAllDriversController = async (req, res, next) => {
 
-  let sqlQuery = "SELECT driver.*, concat('[', group_concat(JSON_OBJECT('vehicle_id', vehicle.id, 'plate', vehicle.plate, 'driver_id', vehicle.driver_id) order by vehicle.id separator ','), ']') as vehicles FROM driver JOIN vehicle ON vehicle.driver_id = driver.id GROUP BY driver.id, driver.first_name";
 
- 
+  const driverQuery = req.query.driver
+  let sqlQuery
+  
+  if(driverQuery){
+    sqlQuery = `SELECT driver.*, concat('[', group_concat(JSON_OBJECT('vehicle_id', vehicle.id, 'plate', vehicle.plate, 'driver_id', vehicle.driver_id) order by vehicle.id separator ','), ']') as vehicles FROM driver JOIN vehicle ON vehicle.driver_id = driver.id WHERE driver.first_name LIKE '${driverQuery}%' GROUP BY driver.id, driver.first_name`
+  } else {
+    sqlQuery = "SELECT driver.*, concat('[', group_concat(JSON_OBJECT('vehicle_id', vehicle.id, 'plate', vehicle.plate, 'driver_id', vehicle.driver_id) order by vehicle.id separator ','), ']') as vehicles FROM driver JOIN vehicle ON vehicle.driver_id = driver.id GROUP BY driver.id, driver.first_name";
+  }
+  
+  
+  
   conn.query(sqlQuery, (err, results) => {
     if(err){
       return res.status(404).json({error: err });

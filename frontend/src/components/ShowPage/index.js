@@ -12,6 +12,8 @@ function ShowPage() {
   const [driverList, setDriverList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadedItems, setLoadedItems] = useState(15);
+  
+  const [searchBar, setSearchBar] = useState("");
 
   const { Panel } = Collapse;
 
@@ -37,6 +39,27 @@ function ShowPage() {
   const moreItems = () => {
     setLoadedItems(loadedItems + 15);
   };
+
+  const searchHandler = (e) => {
+    setSearchBar(e.target.value)
+  }
+
+  const onEnterSearch = async (e) => {
+    if(e.key === "Enter"){
+      try {
+        let listOfVehicles = await fetch(`${process.env.REACT_APP_URL}/?driver=${searchBar}`);
+        listOfVehicles = await listOfVehicles.json();
+  
+        console.log(listOfVehicles.results);
+        setDriverList(listOfVehicles.results);
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        setDriverList("error");
+      }
+    }
+
+  }
   
 
   return (
@@ -45,6 +68,7 @@ function ShowPage() {
       {!isLoading && driverList === "error" && <ResultMessage type="error" />}
       {!isLoading && driverList.length && (
         <div className="container">
+          <input value={searchBar} onChange={searchHandler} onKeyDown={onEnterSearch} />
           {driverList.map((driver, idx) => {
             
             let vehicles = JSON.parse(driver.vehicles);
